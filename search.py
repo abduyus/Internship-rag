@@ -51,9 +51,10 @@ def rerank_results(question, points, limit=5):
 
 
 # Creating a reusable function to search movies in the qdrant collection
-def search_movies(question, limit=15):
+def search_movies(question, limit=5):
     """Retrieve, deduplicate, and rerank movies relevant to the user's query"""
     model = SentenceTransformer(os.getenv('EMBEDDING_MODEL'))
+    retrieval_limit = 15
 
     qdrant_client = QdrantClient(
         url=os.getenv('QDRANT_URL'),
@@ -65,12 +66,12 @@ def search_movies(question, limit=15):
     query_vector = model.encode(question).tolist()
 
     # Retrieve the 15 movies most similar to the query vector
-    results = qdrant_client.query_points(collection_name='movies', query=query_vector, limit=limit)
+    results = qdrant_client.query_points(collection_name='movies', query=query_vector, limit=retrieval_limit)
 
     # Remove duplicate results by title
     deduped = deduplicate_results(results.points)
 
     # Rerank results with a cross encoder
-    top_results = rerank_results(question, deduped, limit=5)
+    top_results = rerank_results(question, deduped, limit=limit)
 
     return top_results
