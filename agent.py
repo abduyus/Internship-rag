@@ -1,11 +1,16 @@
+import os
+
+from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_core.messages import AIMessage
 from langchain_ollama import ChatOllama
 
 from tools import book_movie, search_movies
 
+load_dotenv()
+
 # The LLM is given the available tools
-llm = ChatOllama(model='qwen2.5:14b')
+llm = ChatOllama(model=os.getenv('OLLAMA_MODEL'))
 tools = [search_movies, book_movie]
 agent = create_agent(llm, tools)
 message = input('Ask me about movie details and bookings: ')

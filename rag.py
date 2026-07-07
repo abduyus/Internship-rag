@@ -1,6 +1,11 @@
+import os
+
 import ollama
+from dotenv import load_dotenv
 
 from search import search_movies
+
+load_dotenv()
 
 question = input('Ask me about movies: ')
 results = search_movies(question)
@@ -47,7 +52,7 @@ Answer in a clear, structured way:
 
 # Send the prompt to the LLM and print the response
 response = ollama.chat(
-    model="qwen2.5:14b",
+    model=os.getenv('OLLAMA_MODEL'),
     messages=[
         {
             "role": "user",
