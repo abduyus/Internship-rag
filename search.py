@@ -29,7 +29,7 @@ def search_movies(question, limit=15):
     seen = set()
     deduped = []
 
-    for point in deduped:
+    for point in results.points:
         title = point.payload["title"]
 
         if title not in seen:
@@ -39,7 +39,7 @@ def search_movies(question, limit=15):
     # Reranking
     pairs = [
         (question, point.payload["overview"])
-        for point in results.points
+        for point in deduped
     ]
 
     # Rerank results with a cross-encoder
