@@ -29,7 +29,7 @@ def search_movies(question, limit=15):
     seen = set()
     deduped = []
 
-    for point in results.points:
+    for point in deduped:
         title = point.payload["title"]
 
         if title not in seen:
