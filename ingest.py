@@ -8,7 +8,7 @@ from sentence_transformers import SentenceTransformer
 load_dotenv()
 
 # Load the embedding model
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = SentenceTransformer(os.getenv('EMBEDDING_MODEL'))
 
 # Store the model name
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
