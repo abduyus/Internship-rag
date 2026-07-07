@@ -21,3 +21,9 @@ def test_search_movie_finds_iron_man():
     titles = [movie.payload['title'] for movie in results]
 
     assert 'Iron Man' in titles
+
+
+def test_search_movie_respects_limit():
+    results = search_movies('movie featuring tony stark', limit=3)
+
+    assert len(results) == 3
