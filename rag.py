@@ -1,5 +1,6 @@
-from search import search_movies
 import ollama
+
+from search import search_movies
 
 question = input('Ask me about movies: ')
 results = search_movies(question)
@@ -12,18 +13,16 @@ for movie in results:
     context += f"""
     --------------------------------------------
     --------------------------------------------
-Title: {payload['title']}
-Genres: {payload['genres']}
-Director: {payload['director']}
-Overview:
-{payload['overview']}
-
-
-"""
+    Title: {payload['title']}
+    Genres: {payload['genres']}
+    Director: {payload['director']}
+    Overview:
+    {payload['overview']} \n
+    """
 
 # Build the prompt from the user question and retrieved context
 prompt = f"""
-YYou are a movie recommendation assistant.
+You are a movie recommendation assistant.
 
 You MUST follow these rules:
 - Only use information from the retrieved movies below.

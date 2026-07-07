@@ -1,13 +1,13 @@
-from langchain_ollama import ChatOllama
 from langchain.agents import create_agent
 from langchain_core.messages import AIMessage
+from langchain_ollama import ChatOllama
+
 from tools import book_movie, search_movies
 
-# The LLM is given the available toold
+# The LLM is given the available tools
 llm = ChatOllama(model='qwen2.5:14b')
 tools = [search_movies, book_movie]
 agent = create_agent(llm, tools)
-
 message = input('Ask me about movie details and bookings: ')
 
 # Send the user input to the agent 
@@ -27,4 +27,3 @@ if final_message:
     print(final_message.content)
 else:
     print(response)
-

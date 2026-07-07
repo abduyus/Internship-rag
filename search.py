@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer, CrossEncoder
@@ -6,7 +7,7 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 model = SentenceTransformer("all-MiniLM-L6-v2")
 reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
-# Load environement variables
+# Load environment variables
 load_dotenv()
 
 
@@ -35,7 +36,7 @@ def search_movies(question, limit=15):
             deduped.append(point)
             seen.add(title)
 
-    # RERANKING
+    # Reranking
     pairs = [
         (question, point.payload["overview"])
         for point in results.points
@@ -55,4 +56,3 @@ def search_movies(question, limit=15):
     top_results = [p[0] for p in reranked[:5]]
 
     return top_results
-

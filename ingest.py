@@ -1,8 +1,10 @@
+import os
+
 import pandas as pd
+from dotenv import load_dotenv
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
-import os
-from dotenv import load_dotenv
+
 load_dotenv()
 
 # Load the embedding model
