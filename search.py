@@ -6,6 +6,7 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 model = SentenceTransformer("all-MiniLM-L6-v2")
 reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
+# Load environement variables
 load_dotenv()
 
 
@@ -17,11 +18,13 @@ def search_movies(question, limit=15):
         timeout=60
     )
 
+    # Encode the question into a semantic search vector
     query_vector = model.encode(question).tolist()
 
+    # Retrieve the 15 movies most similar to the query vector
     results = qdrant_client.query_points(collection_name='movies', query=query_vector, limit=limit)
 
-    # Using deduplication to remove duplicates
+    # Remove duplicate results by title
     seen = set()
     deduped = []
 
@@ -32,25 +35,23 @@ def search_movies(question, limit=15):
             deduped.append(point)
             seen.add(title)
 
-    # implementing reranking
-
-    # 1. creating a tuple which contains the user's query along with the overview of the movie
+    # RERANKING
     pairs = [
         (question, point.payload["overview"])
         for point in results.points
     ]
 
-    # Using the reranking model to generate new scores for each of the 20 movies
+    # Rerank results with a cross-encoder
     scores = reranker.predict(pairs)
 
-    # Sorting these rerankings
+    # Sort reranked results by score
     reranked = sorted(
         zip(results.points, scores),
         key=lambda x: x[1],
         reverse=True
     )
 
-    # selecting the top 5 results
+    # Return the top 5 most relevant movies
     top_results = [p[0] for p in reranked[:5]]
 
     return top_results

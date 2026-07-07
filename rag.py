@@ -2,12 +2,10 @@ from search import search_movies
 import ollama
 
 question = input('Ask me about movies: ')
-
 results = search_movies(question)
-
 context = ""
 
-# Iterating over the movies to add their details to the context for the LLM prompt
+# Add movie details to the context for the LLM
 for movie in results:
     payload = movie.payload
 
@@ -23,11 +21,7 @@ Overview:
 
 """
 
-
-# print(context)
-
-
-# Building the LLM prompt using the user's question and the retrieved context
+# Build the prompt from the user question and retrieved context
 prompt = f"""
 YYou are a movie recommendation assistant.
 
@@ -52,6 +46,7 @@ Answer in a clear, structured way:
 - Why they match the request (ONLY using retrieved overviews)
 """
 
+# Send the prompt to the LLM and print the response
 response = ollama.chat(
     model="qwen2.5:14b",
     messages=[
