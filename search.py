@@ -7,10 +7,6 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 # Load environment variables
 load_dotenv()
 
-model = SentenceTransformer(os.getenv('EMBEDDING_MODEL'))
-reranker = CrossEncoder(os.getenv('RERANKER_MODEL'))
-
-
 
 def deduplicate_results(points):
     """Remove duplicate points from a list"""
@@ -29,6 +25,8 @@ def deduplicate_results(points):
 
 def rerank_results(question, points, limit=5):
     """Rerank results from a list"""
+    reranker = CrossEncoder(os.getenv('RERANKER_MODEL'))
+
     pairs = [
         (question, point.payload["overview"])
         for point in points
@@ -51,6 +49,8 @@ def rerank_results(question, points, limit=5):
 # Creating a reusable function to search movies in the qdrant collection
 def search_movies(question, limit=15):
     """Retrieve, deduplicate, and rerank movies relevant to the user's query"""
+    model = SentenceTransformer(os.getenv('EMBEDDING_MODEL'))
+
     qdrant_client = QdrantClient(
         url=os.getenv('QDRANT_URL'),
         api_key=os.getenv('QDRANT_API_KEY'),
