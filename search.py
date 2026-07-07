@@ -25,6 +25,10 @@ def deduplicate_results(points):
 
 def rerank_results(question, points, limit=5):
     """Rerank results from a list"""
+
+    if not points:
+        return []
+
     reranker = CrossEncoder(os.getenv('RERANKER_MODEL'))
 
     pairs = [
