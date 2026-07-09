@@ -6,6 +6,11 @@ services:
       - .env
     depends_on:
       - qdrant
+    # Run non-interactively by default using the MESSAGE env var from .env
+    command: ["python", "agent.py", "--message", "${MESSAGE}"]
+    # For local interactive development you can enable a TTY and stdin:
+    # stdin_open: true
+    # tty: true
 
   qdrant:
     image: qdrant/qdrant:latest
