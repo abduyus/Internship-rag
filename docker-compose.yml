@@ -7,7 +7,7 @@ services:
     depends_on:
       - qdrant
     # Run non-interactively by default using the MESSAGE env var from .env
-    command: ["python", "agent.py", "--message", "${MESSAGE}"]
+    command: [ "python", "agent.py", "--message", "${MESSAGE}" ]
     # For local interactive development you can enable a TTY and stdin:
     # stdin_open: true
     # tty: true
@@ -20,5 +20,14 @@ services:
     volumes:
       - qdrant_storage:/qdrant/storage
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
 volumes:
   qdrant_storage:
+  ollama_data:
