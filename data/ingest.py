@@ -2,7 +2,8 @@ import os
 
 import pandas as pd
 from dotenv import load_dotenv
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
+from qdrant_client.models import PointStruct
 from sentence_transformers import SentenceTransformer
 
 load_dotenv()
@@ -14,7 +15,8 @@ model = SentenceTransformer(os.getenv('EMBEDDING_MODEL'))
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
 # Load the movies from the csv with pandas
-movies = pd.read_csv('movie_dataset.csv')
+csv_path = os.path.join(os.path.dirname(__file__), 'movie_dataset.csv')
+movies = pd.read_csv(csv_path)
 movie = movies.iloc[0]
 
 collection_name = 'movies'
@@ -39,67 +41,65 @@ print(qdrant_client.get_collections())
 #     size=qdrant_client.get_embedding_size(model_name),
 #     distance=models.Distance.COSINE
 # ))
-# embedding = model.encode(document).tolist()
-#
-#
-# points = []
-# batch_size = 20
-#
-# for idx, movie in movies.iterrows():
-#
-#     # Build text for embedding
-#     document = f"""
-#     Title: {movie['title']}
-#     Genres: {movie['genres']}
-#     Director: {movie['director']}
-#     Cast: {movie['cast']}
-#     Overview: {movie['overview']}
-#     """
-#
-#     # Create embedding
-#     vector = model.encode(document).tolist()
-#
-#     # Payload (what we retrieve later)
-#     payload = {
-#         "title": movie["title"],
-#         "overview": movie["overview"],
-#         "genres": movie["genres"],
-#         "director": movie["director"],
-#         "cast": movie["cast"],
-#         "release_date": movie["release_date"],
-#         "homepage": movie["homepage"],
-#         "spoken_languages": movie["spoken_languages"]
-#     }
-#
-#     # Create Qdrant point
-#     points.append(
-#         PointStruct(
-#             id=idx,
-#             vector=vector,
-#             payload=payload
-#         )
-#     )
-#
-#     # -------------------------
-#     # Batch upload
-#     # -------------------------
-#     if len(points) == batch_size:
-#         qdrant_client.upsert(
-#             collection_name=collection_name,
-#             points=points
-#         )
-#         points = []
-#         print(f"Uploaded {idx} movies...")
-#
-# # Upload remaining points
-# if points:
-#     qdrant_client.upsert(
-#         collection_name=collection_name,
-#         points=points
-#     )
-#
-# print("✅ Finished uploading all movies")
+embedding = model.encode(document).tolist()
 
+points = []
+batch_size = 20
+
+for idx, movie in movies.iterrows():
+
+    # Build text for embedding
+    document = f"""
+    Title: {movie['title']}
+    Genres: {movie['genres']}
+    Director: {movie['director']}
+    Cast: {movie['cast']}
+    Overview: {movie['overview']}
+    """
+
+    # Create embedding
+    vector = model.encode(document).tolist()
+
+    # Payload (what we retrieve later)
+    payload = {
+        "title": movie["title"],
+        "overview": movie["overview"],
+        "genres": movie["genres"],
+        "director": movie["director"],
+        "cast": movie["cast"],
+        "release_date": movie["release_date"],
+        "homepage": movie["homepage"],
+        "spoken_languages": movie["spoken_languages"]
+    }
+
+    # Create Qdrant point
+    points.append(
+        PointStruct(
+            id=idx,
+            vector=vector,
+            payload=payload
+        )
+    )
+
+    # -------------------------
+    # Batch upload
+    # -------------------------
+    if len(points) == batch_size:
+        qdrant_client.upsert(
+            collection_name=collection_name,
+            points=points
+        )
+        points = []
+        print(f"Uploaded {idx} movies...")
+
+# Upload remaining points
+if points:
+    qdrant_client.upsert(
+        collection_name=collection_name,
+        points=points
+    )
+
+print("✅ Finished uploading all movies")
 
 # qdrant_client.upsert(
 #     collection_name="movies",
