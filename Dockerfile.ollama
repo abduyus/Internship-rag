@@ -1,0 +1,6 @@
+FROM ollama/ollama:latest
+
+# Create startup script
+RUN echo '#!/bin/sh\nset -e\nollama serve & \nSLEEP_COUNT=0\nwhile [ $SLEEP_COUNT -lt 30 ]; do\n  if ollama list > /dev/null 2>&1; then\n    echo "Ollama ready, pulling model..."\n    ollama pull qwen2.5:7b\n    break\n  fi\n  echo "Waiting for ollama... ($SLEEP_COUNT/30)"\n  sleep 1\n  SLEEP_COUNT=$((SLEEP_COUNT + 1))\ndone\nwait' > /entrypoint.sh && chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
