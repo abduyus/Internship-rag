@@ -14,7 +14,7 @@ model = SentenceTransformer(os.getenv('EMBEDDING_MODEL'))
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
 # Load the movies from the csv with pandas
-movies = pd.read_csv('data/movie_dataset.csv')
+movies = pd.read_csv('movie_dataset.csv')
 movie = movies.iloc[0]
 
 collection_name = 'movies'
