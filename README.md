@@ -1,6 +1,8 @@
 # Internship RAG
 
-A small Retrieval-Augmented Generation (RAG) project for movie discovery and recommendation. The project uses semantic search over a Qdrant vector database, reranks results for better relevance, and exposes both a simple RAG flow and an agent-based workflow.
+A small Retrieval-Augmented Generation (RAG) project for movie discovery and recommendation. The project uses semantic
+search over a Qdrant vector database, reranks results for better relevance, and exposes both a simple RAG flow and an
+agent-based workflow.
 
 ## Features
 
@@ -16,69 +18,79 @@ A small Retrieval-Augmented Generation (RAG) project for movie discovery and rec
 - `rag.py` – simple RAG pipeline that retrieves movies and builds a prompt for Ollama
 - `agent.py` – agent-based version using LangChain tools
 - `tools.py` – tool wrappers for search and booking
-- `ingest.py` – script to load movie data into Qdrant
+- `data/ingest.py` – script to load movie data into Qdrant
 - `tests/` – unit and integration tests
 
 ## Prerequisites
 
-- Python 3.10+
-- A running Ollama instance
-- A Qdrant instance with an API key
-- The movie dataset located in `data/movie_dataset.csv`
+- Docker Desktop
+- Docker Compose
+- A `.env` file with the required environment variables
 
-## Setup
+## Docker Setup
 
-1. Create and activate a virtual environment:
-
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
-
-2. Install the required dependencies:
+1. Build and start the services:
 
    ```bash
-   pip install -r requirements.txt
+   docker compose up --build
    ```
 
-3. Set the required environment variables:
+2. Create the movies collection in Qdrant:
 
    ```bash
-   export QDRANT_URL="your-qdrant-url"
-   export QDRANT_API_KEY="your-qdrant-api-key"
-   export EMBEDDING_MODEL="all-MiniLM-L6-v2"
-   export RERANKER_MODEL="cross-encoder/ms-marco-MiniLM-L-6-v2"
-   export OLLAMA_MODEL="qwen2.5:14b"
+   docker compose run --rm app python data/create_collection.py
    ```
 
-## Ingest the Data
+3. Ingest the movie dataset into Qdrant:
 
-Run the ingestion script to load the movie dataset into Qdrant:
+   ```bash
+   docker compose run --rm app python data/ingest.py
+   ```
+
+
+3. Send a message to the app:
+
+   ```bash
+   docker compose run --rm app python agent.py --message "Find a funny superhero movie and book it for 7pm"
+   ```
+
+## Local Development (optional)
+
+If you want to run the project outside Docker:
 
 ```bash
-python ingest.py
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-## Run the Project
-
-### Simple RAG flow
+Then set the required environment variables and run:
 
 ```bash
-python rag.py
-```
-
-### Agent flow
-
-```bash
+python data/ingest.py
 python agent.py
+```
+
+## Environment Variables
+
+The project expects the following values in `.env`:
+
+```env
+QDRANT_URL=http://qdrant:6333
+QDRANT_API_KEY=your-qdrant-api-key
+EMBEDDING_MODEL=all-MiniLM-L6-v2
+RERANK_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
+OLLAMA_MODEL=qwen2.5:7b
+OLLAMA_BASE_URL=http://ollama:11434
+MESSAGE=tony stark
 ```
 
 ## Testing
 
-Run the test suite with:
+Run the test suite locally with:
 
 ```bash
-python -m pytest -q
+./.venv/bin/python -m pytest -q
 ```
 
 ## Notes
