@@ -12,7 +12,7 @@ from tools import book_movie, search_movies
 load_dotenv()
 
 # The LLM is given the available tools
-llm = ChatOllama(model=os.getenv('OLLAMA_MODEL'))
+llm = ChatOllama(model=os.getenv('OLLAMA_MODEL'), base_url=os.getenv('OLLAMA_BASE_URL'))
 tools = [search_movies, book_movie]
 agent = create_agent(llm, tools)
 
