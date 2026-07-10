@@ -2,8 +2,7 @@ import os
 
 import pandas as pd
 from dotenv import load_dotenv
-from qdrant_client import QdrantClient, models
-from qdrant_client.models import PointStruct
+from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
 
 load_dotenv()
@@ -41,65 +40,65 @@ print(qdrant_client.get_collections())
 #     size=qdrant_client.get_embedding_size(model_name),
 #     distance=models.Distance.COSINE
 # ))
-embedding = model.encode(document).tolist()
-
-points = []
-batch_size = 20
-
-for idx, movie in movies.iterrows():
-
-    # Build text for embedding
-    document = f"""
-    Title: {movie['title']}
-    Genres: {movie['genres']}
-    Director: {movie['director']}
-    Cast: {movie['cast']}
-    Overview: {movie['overview']}
-    """
-
-    # Create embedding
-    vector = model.encode(document).tolist()
-
-    # Payload (what we retrieve later)
-    payload = {
-        "title": movie["title"],
-        "overview": movie["overview"],
-        "genres": movie["genres"],
-        "director": movie["director"],
-        "cast": movie["cast"],
-        "release_date": movie["release_date"],
-        "homepage": movie["homepage"],
-        "spoken_languages": movie["spoken_languages"]
-    }
-
-    # Create Qdrant point
-    points.append(
-        PointStruct(
-            id=idx,
-            vector=vector,
-            payload=payload
-        )
-    )
-
-    # -------------------------
-    # Batch upload
-    # -------------------------
-    if len(points) == batch_size:
-        qdrant_client.upsert(
-            collection_name=collection_name,
-            points=points
-        )
-        points = []
-        print(f"Uploaded {idx} movies...")
-
-# Upload remaining points
-if points:
-    qdrant_client.upsert(
-        collection_name=collection_name,
-        points=points
-    )
-
-print("✅ Finished uploading all movies")
+# embedding = model.encode(document).tolist()
+#
+# points = []
+# batch_size = 20
+#
+# for idx, movie in movies.iterrows():
+#
+#     # Build text for embedding
+#     document = f"""
+#     Title: {movie['title']}
+#     Genres: {movie['genres']}
+#     Director: {movie['director']}
+#     Cast: {movie['cast']}
+#     Overview: {movie['overview']}
+#     """
+#
+#     # Create embedding
+#     vector = model.encode(document).tolist()
+#
+#     # Payload (what we retrieve later)
+#     payload = {
+#         "title": movie["title"],
+#         "overview": movie["overview"],
+#         "genres": movie["genres"],
+#         "director": movie["director"],
+#         "cast": movie["cast"],
+#         "release_date": movie["release_date"],
+#         "homepage": movie["homepage"],
+#         "spoken_languages": movie["spoken_languages"]
+#     }
+#
+#     # Create Qdrant point
+#     points.append(
+#         PointStruct(
+#             id=idx,
+#             vector=vector,
+#             payload=payload
+#         )
+#     )
+#
+#     # -------------------------
+#     # Batch upload
+#     # -------------------------
+#     if len(points) == batch_size:
+#         qdrant_client.upsert(
+#             collection_name=collection_name,
+#             points=points
+#         )
+#         points = []
+#         print(f"Uploaded {idx} movies...")
+#
+# # Upload remaining points
+# if points:
+#     qdrant_client.upsert(
+#         collection_name=collection_name,
+#         points=points
+#     )
+#
+# print("✅ Finished uploading all movies")
 
 # qdrant_client.upsert(
 #     collection_name="movies",
