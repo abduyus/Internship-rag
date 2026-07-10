@@ -1,4 +1,5 @@
 from langchain_core.tools import tool
+
 from search import search_movies as search_movies_backend
 
 
@@ -11,7 +12,6 @@ def search_movies_tool(query):
     return [
         {
             "title": r.payload["title"],
-            "overview": r.payload["overview"]
         }
         for r in results[:5]
     ]
