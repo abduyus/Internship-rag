@@ -1,10 +1,21 @@
+from langsmith.evaluation import evaluate
+
 from agent import ask_movie_agent
 
-questions = [
-    "Recommend a sci-fi movie.",
-    "Recommend a comedy."
-]
 
-for q in questions:
-    print(q)
-    print(ask_movie_agent(q))
+def target(inputs: dict) -> dict:
+    answer = ask_movie_agent(inputs["input"])
+
+    return {
+        "output": answer
+    }
+
+
+results = evaluate(
+    target,
+    data='movie-rag-evaluation',
+    experiment_prefix='movie-rag-v2',
+    description='Evaluation with more in depth prompts for the agent and tools'
+)
+
+print(results)
