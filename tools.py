@@ -14,6 +14,8 @@ def search_movies_tool(query):
             "title": r.payload["title"],
             "genres": r.payload["genres"],
             "release_date": r.payload["release_date"],
+            "director": r.payload["director"],
+            "cast": r.payload["cast"],
         }
         for r in results[:5]
     ]
