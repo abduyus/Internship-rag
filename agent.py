@@ -11,10 +11,22 @@ from tools import book_movie, search_movies
 
 load_dotenv()
 
+SYSTEM_PROMPT = """
+You are a helpful movie assistant.
+
+Always use the available tools whenever they can answer the user's question.
+
+Never invent movie titles, genres, release dates or booking confirmations.
+
+If the tools cannot answer the question, tell the user you do not know.
+
+When recommending movies, briefly explain why they match the user's request.
+"""
+
 # The LLM is given the available tools
 llm = ChatOllama(model=os.getenv('OLLAMA_MODEL'), base_url=os.getenv('OLLAMA_BASE_URL'))
 tools = [search_movies, book_movie]
-agent = create_agent(llm, tools)
+agent = create_agent(llm, tools, system_prompt=SYSTEM_PROMPT)
 
 
 def ask_movie_agent(message):
