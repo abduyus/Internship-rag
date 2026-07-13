@@ -39,6 +39,11 @@ For booking requests:
 - Confirm the booking only after using the booking tool.
 
 Be accurate, concise, and transparent about any limitations.
+
+When users specify criteria like release year:
+1. VERIFY each movie meets the stated criteria before recommending
+2. If a movie doesn't match, exclude it from your response, even if you find another release date for the movie 
+3. Only recommend movies that satisfy ALL user requirements
 """
 
 # The LLM is given the available tools

@@ -14,8 +14,8 @@ def target(inputs: dict) -> dict:
 results = evaluate(
     target,
     data='movie-rag-evaluation',
-    experiment_prefix='movie-rag-v2',
-    description='Evaluation with more in depth prompts for the agent and tools'
+    experiment_prefix='movie-rag-v4',
+    description='Evaluation after changing model to mistral:7b'
 )
 
 print(results)
