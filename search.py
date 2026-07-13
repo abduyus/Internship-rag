@@ -77,10 +77,10 @@ def rerank_results(question, points, limit=5):
 
 
 # Creating a reusable function to search movies in the qdrant collection
-def search_movies(question, limit=5):
+def search_movies(question, limit=7):
     """Retrieve, deduplicate, and rerank movies relevant to the user's query"""
 
-    retrieval_limit = 8
+    retrieval_limit = 10
 
     # Encode the question into a semantic search vector
     start = time.perf_counter()
