@@ -80,7 +80,7 @@ QDRANT_URL=http://qdrant:6333
 QDRANT_API_KEY=your-qdrant-api-key
 EMBEDDING_MODEL=all-MiniLM-L6-v2
 RERANK_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
-OLLAMA_MODEL=qwen2.5:7b
+OLLAMA_MODEL=mistral:7b
 OLLAMA_BASE_URL=http://ollama:11434
 MESSAGE=tony stark
 ```
