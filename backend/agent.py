@@ -7,7 +7,9 @@ from langchain.agents import create_agent
 from langchain_core.messages import AIMessage
 from langchain_ollama import ChatOllama
 
-from tools import book_movie, search_movies
+from backend.tools import search_movies, book_movie
+
+# from tools import book_movie, search_movies
 
 load_dotenv()
 
