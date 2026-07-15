@@ -1,4 +1,4 @@
-from search import rerank_results
+from backend.search import rerank_results
 
 
 class RerankMockPoint:

@@ -1,4 +1,4 @@
-from search import search_movies
+from backend.search import search_movies
 
 
 def test_search_movies_returns_results():

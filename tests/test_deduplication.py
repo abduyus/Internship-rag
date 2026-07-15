@@ -1,4 +1,4 @@
-from search import deduplicate_results
+from backend.search import deduplicate_results
 
 
 class MockPoint:

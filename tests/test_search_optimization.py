@@ -1,6 +1,4 @@
-import types
-
-import search
+from backend import search
 
 
 class FakePoint:

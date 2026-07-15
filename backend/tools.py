@@ -1,6 +1,6 @@
 from langchain_core.tools import tool
 
-from search import search_movies as search_movies_backend
+from backend.search import search_movies as search_movies_backend
 
 
 def movie_booking_tool(movie_title, time):
@@ -9,7 +9,7 @@ def movie_booking_tool(movie_title, time):
 
 def search_movies_tool(query, min_year=None, max_year=None):
     results = search_movies_backend(query)
-    filtered =  [
+    filtered = [
         {
             "title": r.payload["title"],
             "genres": r.payload["genres"],

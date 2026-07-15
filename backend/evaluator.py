@@ -1,6 +1,6 @@
 from langsmith.evaluation import evaluate
 
-from agent import ask_movie_agent
+from backend.agent import ask_movie_agent
 
 
 def target(inputs: dict) -> dict:
