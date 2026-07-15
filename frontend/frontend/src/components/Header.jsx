@@ -7,14 +7,17 @@ const StyledHeader = styled.header`
     flex-direction: column;
     gap: 2.4rem;
     margin-top: 1.6rem;
+    font-size: 2.4rem;
     `
-
+const StyledSubheader = styled.span`
+    font-size: 1.6rem;
+`
 
 function Header() {
     return (
         <StyledHeader>
             <span>Movie Recommendation AI</span>
-            <span>Intelligent movie recommendation and booking system using RAG + LangChain</span>
+            <StyledSubheader>Intelligent movie recommendation and booking system using RAG + LangChain</StyledSubheader>
 
         </StyledHeader>
     );
