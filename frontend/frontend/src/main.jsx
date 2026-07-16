@@ -5,6 +5,8 @@ import App from './App.jsx'
 import GlobalStyles from './GlobalStyles.js'
 
 
+document.documentElement.classList.add('dark-mode')
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <GlobalStyles />
