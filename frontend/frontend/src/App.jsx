@@ -1,11 +1,9 @@
-import Header from "./components/Header.jsx";
-import Search from "./components/Search.jsx";
+import Header from "./sections/Header.jsx";
 
 function App() {
     return (
-        <div className={'dark-mode'}>
+        <div className="dark-mode">
             <Header/>
-            <Search/>
         </div>
     );
 }
