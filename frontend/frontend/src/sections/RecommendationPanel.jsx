@@ -1,14 +1,17 @@
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
+import MovieText from "../components/MovieText.jsx";
+import MovieCard from "../components/MovieCard.jsx";
 
 const StyledRecommendationPanel = styled.div`
     margin: 2.4rem;
     background-color: var(--color-grey-200);
     //background-color: var(--backdrop-color);
     padding: 2rem;
-    height: auto;
     border-radius: var(--border-radius-md);
     //box-shadow: var(--shadow-md)
+    overflow: scroll;
+    max-height: 100vh;
     
     strong {
         font-weight: 800;
@@ -16,27 +19,22 @@ const StyledRecommendationPanel = styled.div`
         margin: 0.8rem;
     }
     
-   
-    > p:first-of-type {
-        margin-bottom: 1rem;
-        text-align: center;
-        font-size: 2.4rem;
-    }
-    > p:nth-of-type(2) {
-        text-align: center;
-        margin-bottom: 2.4rem;
-    }
-    
 `
 
 
 function RecommendationPanel({children}) {
-    console.log(children)
+    const items = children.split("\n---\n")
+    console.log(items)
+    const heading = items.shift()
+    console.log(heading)
+    console.log(items)
+
     return (
         <StyledRecommendationPanel>
-            <ReactMarkdown>
-            {children}
-            </ReactMarkdown>
+            <MovieText>
+                {heading}
+            </MovieText>
+            {items.map(movie => <MovieCard ><ReactMarkdown>{movie}</ReactMarkdown></MovieCard> )}
         </StyledRecommendationPanel>
     );
 }
