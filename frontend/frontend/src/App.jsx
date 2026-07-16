@@ -2,7 +2,7 @@ import Header from "./sections/Header.jsx";
 
 function App() {
     return (
-        <div className="dark-mode">
+        <div>
             <Header/>
         </div>
     );
