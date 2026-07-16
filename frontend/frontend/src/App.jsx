@@ -6,15 +6,7 @@ function App() {
         <div>
             <Header/>
             <RecommendationPanel>
-                Here are some funny superhero movies that you might enjoy:
-
-                1. Megamind (2010) - Directed by Tom McGrath, this animated film stars Will Ferrell as the title character, a supervillain who decides he wants to become a hero instead. The movie is full of humor and action.
-
-                2. Superhero Movie (2008) - Directed by Craig Mazin, this comedy follows the story of Rick Riker, a high school student who is chosen to save the world from evil as the superhero "The Protoman." The film is filled with parodies of various superhero movies.
-
-                3. All Superheroes Must Die (2011) - Directed by Jason Trost, this thriller follows a group of vigilantes who team up to take down a mysterious serial killer known as "The Prowler." The film combines elements of comedy and action.
-
-                4. Batman v Superman: Dawn of Justice (2016) - Directed by Zack Snyder, while not primarily a comedy, this film does have some humorous moments between Batman (Ben Affleck) and Superman (Henry Cavill). The film is packed with action and an epic battle between the two titular characters.
+                **Funny Superhero Movies**\n\nHere are some funny superhero films that might tickle your fancy:\n\n1. **Guardians of the Galaxy Vol. 2 (2017)** - The humor in this film comes from the characters' quirky personalities and witty dialogues.\n\n   Reason: This Marvel movie is popular for its comedic elements, set against a backdrop of superhero action.\n\n2. **Deadpool (2016)** - Known for its irreverent humor and fourth-wall breaking, Deadpool offers a unique take on the superhero genre.\n\n   Reason: This R-rated film is praised for its comedic approach to the superhero genre, which distinguishes it from other films in the category.\n\n3. **Thor: Ragnarok (2017)** - The humor in this film stems from its colorful visuals and Chris Hemsworth's lighthearted portrayal of Thor.\n\n   Reason: This Marvel movie stands out for its comedic tone, which adds a fresh twist to the usual superhero action.
             </RecommendationPanel>
         </div>
     );
