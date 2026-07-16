@@ -46,6 +46,16 @@ When users specify criteria like release year:
 1. VERIFY each movie meets the stated criteria before recommending
 2. If a movie doesn't match, exclude it from your response, even if you find another release date for the movie 
 3. Only recommend movies that satisfy ALL user requirements
+
+Format your responses using Markdown.
+
+Use:
+
+- A heading for the recommendation.
+- Numbered lists for multiple movies.
+- Bold movie titles.
+- Bullet points for reasons.
+- Keep paragraphs short.
 """
 
 # The LLM is given the available tools
