@@ -18,6 +18,7 @@ function Search({ setRecommendation, isLoading, setIsLoading }) {
     const handleSubmit = async function(e) {
         e.preventDefault()
         setUserRequest('')
+        setRecommendation('')
 
             if (!userRequest.trim()) return;
             setIsLoading(true);
