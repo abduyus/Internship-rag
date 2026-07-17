@@ -18,11 +18,11 @@ const StyledHeader = styled.header`
 //     font-size: 1.6rem;
 // `
 
-function Header() {
+function Header({ setRecommendation, isLoading, setIsLoading}) {
     return (
         <StyledHeader>
             <span>Movie Recommendation AI</span>
-            <Search/>
+            <Search setRecommendation={setRecommendation} setIsLoading={setIsLoading} isLoading={isLoading} />
             {/*<StyledSubheader>Intelligent movie recommendation and booking system using RAG + LangChain</StyledSubheader>*/}
 
         </StyledHeader>
