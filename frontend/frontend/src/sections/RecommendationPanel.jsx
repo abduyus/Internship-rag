@@ -12,12 +12,15 @@ const StyledRecommendationPanel = styled.div`
     //box-shadow: var(--shadow-md)
     overflow: scroll;
     max-height: 100vh;
+    transition: all 1s;
     
     strong {
         font-weight: 800;
         color: var(--color-blue-700);
-        margin: 0.8rem;
+        //margin: 0.8rem;
     }
+
+    
     
 `
 
