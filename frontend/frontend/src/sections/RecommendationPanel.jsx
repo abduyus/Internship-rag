@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import MovieText from "../components/MovieText.jsx";
 import MovieCard from "../components/MovieCard.jsx";
+import Spinner from "../components/Spinner.jsx";
 
 const StyledRecommendationPanel = styled.div`
     margin: 2.4rem;
@@ -11,7 +12,7 @@ const StyledRecommendationPanel = styled.div`
     border-radius: var(--border-radius-md);
     //box-shadow: var(--shadow-md)
     overflow: scroll;
-    max-height: 100vh;
+    
     transition: all 1s;
     
     strong {
@@ -25,7 +26,7 @@ const StyledRecommendationPanel = styled.div`
 `
 
 
-function RecommendationPanel({children}) {
+function RecommendationPanel({children, isLoading}) {
     const items = children.split("\n---\n")
     console.log(items)
     const heading = items.shift()
@@ -34,12 +35,12 @@ function RecommendationPanel({children}) {
 
     return (
         <StyledRecommendationPanel>
+            {isLoading && <Spinner/>}
             <MovieText>
                 {heading}
             </MovieText>
             {items.map(movie => <MovieCard ><ReactMarkdown>{movie}</ReactMarkdown></MovieCard> )}
-        </StyledRecommendationPanel>
-    );
+        </StyledRecommendationPanel>)
 }
 
 export default RecommendationPanel;
