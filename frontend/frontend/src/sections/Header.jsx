@@ -21,7 +21,7 @@ const StyledHeader = styled.header`
 function Header({ setRecommendation, isLoading, setIsLoading}) {
     return (
         <StyledHeader>
-            <span>Movie Recommendation AI</span>
+            <span>🎬 MovieScore</span>
             <Search setRecommendation={setRecommendation} setIsLoading={setIsLoading} isLoading={isLoading} />
             {/*<StyledSubheader>Intelligent movie recommendation and booking system using RAG + LangChain</StyledSubheader>*/}
 
