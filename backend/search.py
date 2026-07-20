@@ -76,9 +76,20 @@ def rerank_results(question, points, limit=5, max_gap=4.0):
 
     for point, score in reranked:
         print(f"{score:.3f}  {point.payload['title']}")
+    print(filtered)
 
     # Return the top 5 most relevant movies
-    return [point for point, _ in filtered[:limit]]
+    movies = []
+
+    for point, score in filtered[:limit]:
+        match_score = round(score / top_score * 100)
+
+        movies.append({
+            "point": point,
+            "score": match_score,
+        })
+
+    return movies
 
 
 # Creating a reusable function to search movies in the qdrant collection

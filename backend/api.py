@@ -27,6 +27,7 @@ class MovieOut(BaseModel):
     genres: List[str]
     overview: str
     why_it_matches: List[str]
+    match_score: float
 
 
 class RecommendationResponse(BaseModel):

@@ -22,6 +22,9 @@ class Movie(BaseModel):
     genres: List[str]
     overview: str = Field(description="A short 1-2 sentence description")
     why_it_matches: List[str]
+    match_score: float = Field(
+        description="Relevance score returned by the search tool"
+    )
 
 
 class MovieRecommendations(BaseModel):
@@ -71,6 +74,14 @@ Rules:
 - Do not add, remove, or invent any movies that are not already present in the answer.
 - Do not change any titles, years, genres, or facts.
 - Only reorganize the existing content into the schema fields.
+- Preserve the match_score exactly as provided by the search tool.
+- Do not modify or estimate match scores.
+
+For each movie:
+
+- why_it_matches should contain concise reasons explaining why the movie satisfies the user's request.
+- Do not copy the genres into why_it_matches.
+- Base the reasons on the user's query and the movie description.
 
 Answer to convert:
 {answer}

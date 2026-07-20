@@ -10,17 +10,13 @@ def movie_booking_tool(movie_title, time):
 def search_movies_tool(query, min_year=None, max_year=None):
     results = search_movies_backend(query)
     filtered = [
-        {
-            "title": r.payload["title"],
-            "genres": r.payload["genres"],
-            "release_date": r.payload["release_date"],
-            "director": r.payload["director"],
-            "cast": r.payload["cast"],
-            "overview": r.payload["overview"],
-        }
+        r
         for r in results[:5]
-        if (min_year is None or int(r.payload["release_date"][:4]) >= min_year) and
-           (max_year is None or int(r.payload["release_date"][:4]) <= max_year)
+        if (
+                (min_year is None or int(r["release_date"][:4]) >= min_year)
+                and
+                (max_year is None or int(r["release_date"][:4]) <= max_year)
+        )
     ]
     return filtered
 
@@ -40,7 +36,7 @@ def search_movies(query, min_year: int = None, max_year: int = None):
         query (str): The user's movie-related query.
 
     Returns:
-        A list of matching movies with title, genres and release date.
+        A list of matching movies with title, genres, matching score, and release date.
 
     Use min_year/max_year to filter by release date.
     Example: search for movies about action released after 2015: search_movies("action", min_year=2015)    
