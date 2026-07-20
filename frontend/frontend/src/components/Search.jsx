@@ -10,6 +10,12 @@ const StyledSearch = styled.div`
     //width: min(100%, 48rem);
     gap: 1rem;
     display: flex;
+    transition: all .25s;
+
+    &:focus {
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 4px rgba(124,58,237,.2);
+    }
 `
 
 function Search({ setRecommendation, isLoading, setIsLoading }) {
