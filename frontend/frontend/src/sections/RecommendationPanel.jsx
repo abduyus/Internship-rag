@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import ReactMarkdown from "react-markdown";
 import MovieText from "../components/MovieText.jsx";
 import MovieCard from "../components/MovieCard.jsx";
 import Spinner from "../components/Spinner.jsx";
@@ -26,12 +25,10 @@ const StyledRecommendationPanel = styled.div`
 `
 
 
-function RecommendationPanel({children, isLoading}) {
-    const items = children.split("\n---\n")
-    console.log(items)
-    const heading = items.shift()
-    console.log(heading)
-    console.log(items)
+function RecommendationPanel({recommendation, isLoading}) {
+    const heading = recommendation.summary
+    const items = recommendation.movies
+    console.log(heading, items)
 
     return (
         <StyledRecommendationPanel>
@@ -39,7 +36,7 @@ function RecommendationPanel({children, isLoading}) {
             <MovieText>
                 {heading}
             </MovieText>
-            {items.map(movie => <MovieCard ><ReactMarkdown>{movie}</ReactMarkdown></MovieCard> )}
+            {items.map(movie => <MovieCard movie={movie} />)}
         </StyledRecommendationPanel>)
 }
 

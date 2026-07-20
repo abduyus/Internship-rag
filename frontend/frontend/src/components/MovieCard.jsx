@@ -52,11 +52,12 @@ const StyledMovieCard = styled.div`
     }
     
 `
-function MovieCard({children}) {
-    console.log(children)
+function MovieCard({movie}) {
+    const {title, genres, overview, why_it_matches, year} = movie;
+    console.log(title, genres, overview, why_it_matches, year)
+
     return (
         <StyledMovieCard>
-            {children}
         </StyledMovieCard>
     );
 }
