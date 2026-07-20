@@ -52,11 +52,36 @@ const Button = styled.button`
     border: none;
     border-radius: var(--border-radius-sm);
     box-shadow: var(--shadow-sm);
-    color: var(--color-grey-100);
+    color: var(--color-brand-100);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.8rem;
+    background-size: 200% 200%;
+    transition: all 0.35s ease;
+
+
+    background: linear-gradient(
+            90deg,
+            #7c3aed,
+            #2563eb,
+            #f97316,
+            #7c3aed
+    );
+
+    background-size: 300% 300%;
+
+    animation: gradientMove 6s linear infinite;
+
+    @keyframes gradientMove {
+        0% {
+            background-position: 0%;
+        }
+        100% {
+            background-position: 300%;
+        }
+    }
+
 
     ${(props) => sizes[props.size]}
     ${(props) => variations[props.variation]}
