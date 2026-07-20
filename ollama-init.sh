@@ -9,7 +9,7 @@ OLLAMA_PID=$!
 sleep 3
 
 # Pull the model
-ollama pull mistral:7b || true
+ollama pull qwen2.5:7b || true
 
 # Keep waiting for background process
 wait $OLLAMA_PID
