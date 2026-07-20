@@ -11,6 +11,8 @@ const StyledMovieCard = styled.div`
     gap: 1.8rem;
     box-shadow: var(--shadow-md);
     transition: all 0.3s;
+    
+    
 
     &:hover {
         box-shadow: var(--shadow-lg);
@@ -40,6 +42,7 @@ const StyledMovieCard = styled.div`
          padding: 0.4rem 1rem;
          border-radius: var(--border-radius-lg);
         font-size: 1.2rem;
+        text-transform: uppercase;
      }
     
     ul:last-of-type {
