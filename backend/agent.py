@@ -1,17 +1,33 @@
 import argparse
 import os
 import sys
+from typing import List, Optional
 
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_core.messages import AIMessage
 from langchain_ollama import ChatOllama
+from pydantic import BaseModel, Field
 
 from backend.tools import search_movies, book_movie
 
 # from tools import book_movie, search_movies
 
 load_dotenv()
+
+
+class Movie(BaseModel):
+    title: str
+    year: int
+    genres: List[str]
+    overview: str = Field(description="A short 1-2 sentence description")
+    why_it_matches: List[str]
+
+
+class MovieRecommendations(BaseModel):
+    summary: str = Field(description="Short 1-2 sentence summary")
+    movies: List[Movie]
+
 
 SYSTEM_PROMPT = """
 You are a helpful movie recommendation and booking assistant.
@@ -44,61 +60,95 @@ Be accurate, concise, and transparent about any limitations.
 
 When users specify criteria like release year:
 1. VERIFY each movie meets the stated criteria before recommending
-2. If a movie doesn't match, exclude it from your response, even if you find another release date for the movie 
+2. If a movie doesn't match, exclude it from your response, even if you find another release date for the movie
 3. Only recommend movies that satisfy ALL user requirements
-
-Format your response using Markdown.
-
-Start with a short summary (1-2 sentences).
-
-Then, for each movie, use the following format:
-
----
-## Movie Title (Year)
-
-**Genres**
-
-- Action
-- Comedy
-
-**Brief overview** - A short 1-2 sentence description.
-
-**Why it matches**
-- Reason 1 
-- Reason 2
-
-
-
----
-
-Do not use numbered lists.
-Keep the formatting consistent for every recommendation.
 """
 
-# The LLM is given the available tools
+STRUCTURING_PROMPT = """
+Convert the answer below into the required structured format.
+
+Rules:
+- Do not add, remove, or invent any movies that are not already present in the answer.
+- Do not change any titles, years, genres, or facts.
+- Only reorganize the existing content into the schema fields.
+
+Answer to convert:
+{answer}
+"""
+
+# The agent handles tool-calling and reasoning. It is NOT asked to also
+# self-report structured JSON here, since forcing a final structured tool
+# call after a multi-turn tool loop is unreliable with Ollama models.
 llm = ChatOllama(model=os.getenv('OLLAMA_MODEL'), base_url=os.getenv('OLLAMA_BASE_URL'))
 tools = [search_movies, book_movie]
-agent = create_agent(llm, tools, system_prompt=SYSTEM_PROMPT)
+agent = create_agent(
+    llm,
+    tools,
+    system_prompt=SYSTEM_PROMPT,
+)
+
+# A separate model call, constrained with Ollama's native `format` schema,
+# does the structuring. This is a distinct step from tool-calling, so it
+# doesn't depend on the flaky forced-tool-call behavior.
+structuring_llm = ChatOllama(
+    model=os.getenv('OLLAMA_MODEL'),
+    base_url=os.getenv('OLLAMA_BASE_URL'),
+).with_structured_output(MovieRecommendations, method="json_schema")
+
+
+def _used_booking_tool(messages) -> bool:
+    """Check whether book_movie was called during this turn.
+
+    Booking confirmations don't fit the MovieRecommendations schema, so
+    those responses are returned as plain text instead of being forced
+    into a shape that doesn't match what happened.
+    """
+    for msg in messages:
+        tool_calls = getattr(msg, "tool_calls", None)
+        if tool_calls:
+            for call in tool_calls:
+                if call.get("name") == "book_movie":
+                    return True
+    return False
+
+
+def _get_final_ai_message(messages) -> Optional[str]:
+    final_message = next(
+        (msg for msg in reversed(messages) if isinstance(msg, AIMessage)),
+        None
+    )
+    return final_message.content if final_message else None
 
 
 def ask_movie_agent(message):
-    # Send the user input to the agent
+    # Step 1: let the agent reason and call tools as needed
     response = agent.invoke({
         "messages": [
             ("user", message)
         ]
     })
 
-    # Selecting the final response received from the LLM
-    final_message = next(
-        (msg for msg in reversed(response['messages']) if isinstance(msg, AIMessage)),
-        None
-    )
+    raw_answer = _get_final_ai_message(response["messages"])
 
-    if final_message:
-        return final_message.content
-    else:
-        return response
+    if raw_answer is None:
+        return {"summary": "I don't know.", "movies": []}
+
+    # Booking confirmations are returned as-is, not squeezed into the
+    # movie recommendations schema
+    if _used_booking_tool(response["messages"]):
+        return {"type": "booking", "message": raw_answer}
+
+    # Step 2: structure the recommendation answer into clean JSON
+    try:
+        structured = structuring_llm.invoke(
+            STRUCTURING_PROMPT.format(answer=raw_answer)
+        )
+        return structured.model_dump()
+    except Exception as exc:
+        # Structuring failed — fall back to the raw text rather than crash,
+        # but make the failure visible so it can be caught in logs/evals
+        print(f"Structuring step failed: {exc}", file=sys.stderr)
+        return {"summary": raw_answer, "movies": []}
 
 
 if __name__ == '__main__':
