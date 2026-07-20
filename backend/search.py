@@ -51,7 +51,7 @@ def deduplicate_results(points):
     return deduped
 
 
-def rerank_results(question, points, limit=5):
+def rerank_results(question, points, limit=5, max_gap=4.0):
     """Rerank results from a list"""
 
     if not points:
@@ -71,9 +71,14 @@ def rerank_results(question, points, limit=5):
         key=lambda x: x[1],
         reverse=True
     )
+    top_score = - reranked[0][1]
+    filtered = [(point, score) for point, score in reranked if (top_score - score) <= max_gap]
+
+    for point, score in reranked:
+        print(f"{score:.3f}  {point.payload['title']}")
 
     # Return the top 5 most relevant movies
-    return [point for point, _ in reranked[:limit]]
+    return [point for point, _ in filtered[:limit]]
 
 
 # Creating a reusable function to search movies in the qdrant collection
