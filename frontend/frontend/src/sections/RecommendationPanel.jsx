@@ -11,6 +11,12 @@ const StyledRecommendationPanel = styled.div`
     border-radius: var(--border-radius-md);
     //box-shadow: var(--shadow-md)
     overflow: scroll;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 4.8rem 2fr;
+    align-items: center;
+    justify-content: center;
+    column-gap: 2.4rem;
     
     transition: all 1s;
     
