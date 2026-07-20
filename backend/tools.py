@@ -16,6 +16,7 @@ def search_movies_tool(query, min_year=None, max_year=None):
             "release_date": r.payload["release_date"],
             "director": r.payload["director"],
             "cast": r.payload["cast"],
+            "overview": r.payload["overview"],
         }
         for r in results[:5]
         if (min_year is None or int(r.payload["release_date"][:4]) >= min_year) and
