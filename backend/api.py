@@ -28,6 +28,7 @@ class MovieOut(BaseModel):
     overview: str
     why_it_matches: List[str]
     match_score: float
+    backdrop_url: str | None = None
 
 
 class RecommendationResponse(BaseModel):

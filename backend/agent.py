@@ -9,6 +9,7 @@ from langchain_core.messages import AIMessage
 from langchain_ollama import ChatOllama
 from pydantic import BaseModel, Field
 
+from backend.tmdb import get_backdrop
 from backend.tools import search_movies, book_movie
 
 # from tools import book_movie, search_movies
@@ -154,7 +155,16 @@ def ask_movie_agent(message):
         structured = structuring_llm.invoke(
             STRUCTURING_PROMPT.format(answer=raw_answer)
         )
-        return structured.model_dump()
+
+        result = structured.model_dump()
+
+        for movie in result["movies"]:
+            movie["backdrop_url"] = get_backdrop(
+                movie["title"],
+                movie["year"],
+            )
+
+        return result
     except Exception as exc:
         # Structuring failed — fall back to the raw text rather than crash,
         # but make the failure visible so it can be caught in logs/evals
