@@ -24,7 +24,7 @@ function Search({ setRecommendation, isLoading, setIsLoading }) {
     const handleSubmit = async function(e) {
         e.preventDefault()
         setUserRequest('')
-        setRecommendation('')
+        setRecommendation({ summary: '', movies: [] });
 
             if (!userRequest.trim()) return;
             setIsLoading(true);
@@ -41,9 +41,9 @@ function Search({ setRecommendation, isLoading, setIsLoading }) {
 
                 const data = await res.json();
 
-                setRecommendation(data.response);
+                setRecommendation(data);
                 setUserRequest("");
-                console.log(data.response);
+                console.log(data);
             } catch (err) {
                 console.error(err);
             }
