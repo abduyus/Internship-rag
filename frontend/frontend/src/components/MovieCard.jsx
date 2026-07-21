@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import Progress from "./Progress.jsx";
+
 
 const StyledMovieCard = styled.div`
     background-color: var(--color-grey-100);
@@ -7,38 +9,54 @@ const StyledMovieCard = styled.div`
     border-radius: var(--border-radius-lg);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 1.8rem;
+    justify-content: flex-start;
+    //gap: 1.8rem;
     box-shadow: var(--shadow-md);
     transition: all 0.3s;
     grid-row: 2;
-    //height: 100%;
+    height: 100%;
     padding-bottom: 1.8rem;
-    
-    
+
 
     &:hover {
         box-shadow: var(--shadow-lg);
-        
+
+
+        transform: translateY(-6px);
     }
     
+    .top_movie {
+        box-shadow: 0 12px 30px rgba(0,0,0,0.65), 0 0 24px rgba(34,197,94,0.48);
+    }
+
     .movie_title {
-        margin-left: 1.8rem;
+        //margin-left: 1.8rem;
+        margin: 0 1.8rem 1.2rem;
     }
-    
+
     .overview {
-        margin-left: 1.8rem;
+        //margin-left: 1.8rem;
+        margin: 0 1.8rem 1.8rem;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
     }
-    
-    
-   .movie_image {
-       width: 100%;
-       border-top-left-radius: var(--border-radius-lg);
-       border-top-right-radius: var(--border-radius-lg);
-   }
-    
+
+
+    .movie_image {
+        width: 100%;
+        border-top-left-radius: var(--border-radius-lg);
+        border-top-right-radius: var(--border-radius-lg);
+        transition: transform .3s ease;
+    }
+
+
     .matches_reason {
-        padding-left: 1.8rem;
+        //padding-left: 1.8rem;
+        margin: auto 1.8rem 0;
     }
 
     .card__genres {
@@ -46,9 +64,10 @@ const StyledMovieCard = styled.div`
         flex-wrap: wrap;
         gap: 1.2rem;
         font-size: 1.3rem;
-        margin-bottom: 2.4rem;
-        margin-top: 1.2rem;
-        margin-left: 1.8rem;
+        //margin-bottom: 2.4rem;
+        //margin-top: 1.2rem;
+        //margin-left: 1.8rem;
+        margin: 1.8rem;
     }
 
     .card__genre {
@@ -180,11 +199,11 @@ const StyledMovieCard = styled.div`
         background-color: #f0abfc;
         color: #701a75;
     }
-    
+
 `
 function MovieCard({movie}) {
-    const {title, genres, overview, why_it_matches, year} = movie;
-    console.log(title, genres, overview, why_it_matches, year)
+    const {title, genres, overview, why_it_matches, year, match_score} = movie;
+    console.log(title, genres, overview, why_it_matches, year, match_score);
 
     return (
         <StyledMovieCard>
@@ -197,6 +216,7 @@ function MovieCard({movie}) {
                 })}
             </div>
             <h1 className={'movie_title'}>{title} ({year})</h1>
+            <Progress score={match_score} />
             <p className={'overview'}>{overview}</p>
             <p className={'matches_reason'}>{why_it_matches}</p>
 
