@@ -5,45 +5,52 @@ import Spinner from "../components/Spinner.jsx";
 
 const StyledRecommendationPanel = styled.div`
     margin: 2.4rem;
-    background-color: var(--color-grey-200);
-    //background-color: var(--backdrop-color);
     padding: 2rem;
+
+    background-color: var(--color-grey-200);
     border-radius: var(--border-radius-md);
-    //box-shadow: var(--shadow-md)
-    overflow: scroll;
+
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 4.8rem 2fr;
-    align-items: center;
+    grid-template-columns: repeat(${props => props.columns}, 1fr);
+    gap: 2.4rem;
+    align-items: stretch;
     justify-content: center;
-    column-gap: 2.4rem;
-    
-    transition: all 1s;
-    
+
+    transition: all 0.3s;
+
     strong {
         font-weight: 800;
         color: var(--color-blue-700);
-        //margin: 0.8rem;
     }
+`;
 
-    
-    
-`
+const StyledHeading = styled.div`
+    grid-column: 1 / -1;
+    justify-self: center;
+`;
 
-
-function RecommendationPanel({recommendation, isLoading}) {
-    const heading = recommendation.summary
-    const items = recommendation.movies
-    console.log(heading, items)
+function RecommendationPanel({ recommendation, isLoading }) {
+    const heading = recommendation.summary;
+    const items = recommendation.movies;
 
     return (
-        <StyledRecommendationPanel>
-            {isLoading && <Spinner/>}
-            <MovieText>
-                {heading}
-            </MovieText>
-            {items.map(movie => <MovieCard movie={movie} />)}
-        </StyledRecommendationPanel>)
+        <StyledRecommendationPanel
+            columns={Math.max(1, Math.min(items.length, 4))}
+        >
+            {isLoading && <Spinner />}
+
+            <StyledHeading>
+                <MovieText>{heading}</MovieText>
+            </StyledHeading>
+
+            {items.map(movie => (
+                <MovieCard
+                    key={movie.title}
+                    movie={movie}
+                />
+            ))}
+        </StyledRecommendationPanel>
+    );
 }
 
 export default RecommendationPanel;
