@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Progress from "./Progress.jsx";
+import {useEffect} from "react";
 
 
 const StyledMovieCard = styled.div`
@@ -50,7 +51,7 @@ const StyledMovieCard = styled.div`
         width: 100%;
         border-top-left-radius: var(--border-radius-lg);
         border-top-right-radius: var(--border-radius-lg);
-        transition: transform .3s ease;
+    
     }
 
 
@@ -202,12 +203,15 @@ const StyledMovieCard = styled.div`
 
 `
 function MovieCard({movie}) {
-    const {title, genres, overview, why_it_matches, year, match_score} = movie;
-    console.log(title, genres, overview, why_it_matches, year, match_score);
+    const {title, genres, overview, why_it_matches, year, match_score, backdrop_url} = movie;
+    console.log(movie)
+    console.log(title, genres, overview, why_it_matches, year, match_score, backdrop_url);
+
+
 
     return (
         <StyledMovieCard>
-            <img src={'img_1.png'} alt="Movie Image" className={'movie_image'} />
+            <img src={backdrop_url} alt="Movie Image" className={'movie_image'} />
             <div className="card__genres">
                 {genres.map((genre) => {
                     return (
