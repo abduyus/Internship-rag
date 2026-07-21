@@ -3,19 +3,21 @@ import styled from "styled-components";
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 1.8rem;
+    padding: 0 1.8rem;
     width: 100%;
+    margin: 0.8rem 0;
     //align-items: center;
-    gap: 1rem;
+    gap: 1.8rem;
     
 `
 
 const StyledProgress = styled.div`
-    width: 50%;
+    width: 100%;
     height: 10px;
     background: #374151;
     border-radius: 999px;
     overflow: hidden;
+    margin-bottom: 2.4rem;
 `;
 
 const Fill = styled.div`
@@ -54,10 +56,10 @@ function Progress({score}) {
     return (
         <StyledContainer>
 
+            <StyledLabel>{score * 100}% • {label}</StyledLabel>
             <StyledProgress>
                 <Fill score={score} gradient={gradient} />
             </StyledProgress>
-            <StyledLabel>{score * 100}%  {label}</StyledLabel>
         </StyledContainer>
     );
 }
