@@ -35,7 +35,7 @@ function RecommendationPanel({ recommendation, isLoading }) {
 
     return (
         <StyledRecommendationPanel
-            columns={Math.max(1, Math.min(items.length, 4))}
+            columns={Math.max(1, Math.min(items?.length, 4))}
         >
             {isLoading && <Spinner />}
 
@@ -43,7 +43,7 @@ function RecommendationPanel({ recommendation, isLoading }) {
                 <MovieText>{heading}</MovieText>
             </StyledHeading>
 
-            {items.map(movie => (
+            {items?.map(movie => (
                 <MovieCard
                     key={movie.title}
                     movie={movie}
