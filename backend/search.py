@@ -1,3 +1,4 @@
+import math
 import os
 import time
 
@@ -51,14 +52,21 @@ def deduplicate_results(points):
     return deduped
 
 
-def rerank_results(question, points, limit=5, max_gap=4.0):
+def rerank_results(question, points, limit=5, max_gap=3.0):
     """Rerank results from a list"""
 
     if not points:
         return []
 
     pairs = [
-        (question, point.payload["overview"])
+        (
+            question,
+            f"""
+            Title: {point.payload['title']}
+            Genres: {', '.join(point.payload['genres'])}
+            Overview: {point.payload['overview']}
+            """
+        )
         for point in points
     ]
 
@@ -71,7 +79,7 @@ def rerank_results(question, points, limit=5, max_gap=4.0):
         key=lambda x: x[1],
         reverse=True
     )
-    top_score = - reranked[0][1]
+    top_score = reranked[0][1]
     filtered = [(point, score) for point, score in reranked if (top_score - score) <= max_gap]
 
     for point, score in reranked:
@@ -82,11 +90,18 @@ def rerank_results(question, points, limit=5, max_gap=4.0):
     movies = []
 
     for point, score in filtered[:limit]:
-        match_score = round(score / top_score * 100)
+        match_score = round(
+            100 / (1 + math.exp(-score))
+        )
 
         movies.append({
-            "point": point,
-            "score": match_score,
+            "title": point.payload["title"],
+            "release_date": point.payload["release_date"],
+            "genres": point.payload["genres"],
+            "director": point.payload["director"],
+            "cast": point.payload["cast"],
+            "overview": point.payload["overview"],
+            "match_score": match_score,
         })
 
     return movies
@@ -96,7 +111,7 @@ def rerank_results(question, points, limit=5, max_gap=4.0):
 def search_movies(question, limit=7):
     """Retrieve, deduplicate, and rerank movies relevant to the user's query"""
 
-    retrieval_limit = 10
+    retrieval_limit = 30
 
     # Encode the question into a semantic search vector
     start = time.perf_counter()
