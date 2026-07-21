@@ -9,6 +9,7 @@ def movie_booking_tool(movie_title, time):
 
 def search_movies_tool(query, min_year=None, max_year=None):
     results = search_movies_backend(query)
+    print(results)
     filtered = [
         r
         for r in results[:5]
