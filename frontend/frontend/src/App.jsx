@@ -4,61 +4,54 @@ import {useState} from "react";
 
 
 const MOCK_RECOMMENDATION =
-{
-    "summary": "Let's find a funny superhero movie for you.",
-    "movies": [
     {
-        "title": "Batman Begins",
-        "year": 2005,
-        "genres": [
-            "Action",
-            "Adventure"
-        ],
-        "overview": "A young Bruce Wayne is driven to become Batman, a symbol of justice in Gotham City, as he seeks revenge against those responsible for his parents' murder.",
-        "why_it_matches": [
-            "While not strictly comedic, it does include humorous moments and the overall tone of the movie can be quite entertaining."
+        "summary": "Based on your preference for a funny superhero movie, here are some options that might interest you:",
+        "movies": [
+            {
+                "title": "Superhero Movie",
+                "year": 2008,
+                "genres": [
+                    "Action",
+                    "Comedy",
+                    "Science Fiction"
+                ],
+                "overview": "The team behind Scary Movie takes on the comic book genre in this tale of Rick Riker, a nerdy teen imbued with superpowers by a radioactive dragonfly.",
+                "why_it_matches": [
+                    "This movie combines superhero elements with comedy, which should make it both entertaining and funny."
+                ],
+                "match_score": 0.92
+            },
+            {
+                "title": "Superman",
+                "year": 1978,
+                "genres": [
+                    "Action",
+                    "Adventure",
+                    "Fantasy",
+                    "Science Fiction"
+                ],
+                "overview": "A mild-mannered reporter named Clark Kent works as a journalist alongside his crush Lois Lane at the Daily Planet. He must summon his superhero alter ego when Lex Luthor threatens to take over the world.",
+                "why_it_matches": [
+                    "While not primarily a comedy, this classic film has humor and should be enjoyable for fans of both superheroes and comedy."
+                ],
+                "match_score": 0.78
+            },
+            {
+                "title": "Super",
+                "year": 2010,
+                "genres": [
+                    "Comedy",
+                    "Action",
+                    "Drama"
+                ],
+                "overview": "After his wife falls under the influence of a drug dealer, an everyday guy transforms himself into Crimson Bolt, a superhero with the best intentions.",
+                "why_it_matches": [
+                    "This movie has strong comedy elements and is centered around a hero's journey."
+                ],
+                "match_score": 0.95
+            }
         ]
-    },
-    {
-        "title": "The Incredibles",
-        "year": 2004,
-        "genres": [
-            "Animation",
-            "Action",
-            "Comedy"
-        ],
-        "overview": "When a family's secret abilities are exposed, they go on an adventure to save the world.",
-        "why_it_matches": [
-            "A true classic of superhero and animated comedy. This movie is filled with humorous situations and witty dialogue."
-        ]
-    },
-    {
-        "title": "Superbad",
-        "year": 2007,
-        "genres": [
-            "Comedy",
-            "Drama"
-        ],
-        "overview": "Two high school seniors try to throw the party of a lifetime on their final night before leaving for college.",
-        "why_it_matches": [
-            "While not a traditional superhero film, it features comedic elements and can be enjoyed by those looking for a fun movie."
-        ]
-    },
-    {
-        "title": "Shang-Chi and the Legend of the Ten Rings",
-        "year": 2021,
-        "genres": [
-            "Action",
-            "Adventure",
-            "Comedy"
-        ],
-        "overview": "Shang-Chi must confront his past when he is drawn into the mystery of the Ten Rings organization.",
-        "why_it_matches": [
-            "Although it's an action-packed adventure, there are plenty of humorous moments and clever dialogue."
-        ]
-    }
-]
-};
+    };
 
 
 
