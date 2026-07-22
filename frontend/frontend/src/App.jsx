@@ -8,29 +8,50 @@ const MOCK_RECOMMENDATION =
         "summary": "",
         "movies": [
             {
-                "title": "Iron Man",
-                "year": 2008,
-                "genres": [],
-                "overview": "Tony Stark creates an advanced suit of armor and uses it to fight crime.",
-                "why_it_matches": [
-                    "Starring Tony Stark",
-                    "Advanced technology themes"
+                "title": "All Superheroes Must Die",
+                "year": 2011,
+                "genres": [
+                    "Science Fiction",
+                    "Thriller"
                 ],
-                "match_score": 9.573412470645808,
-                "rating": 7.9,
-                "duration": 126,
-                "backdrop_url": "https://image.tmdb.org/t/p/original/cyecB7godJ6kNHGONFjUyVN9OX5.jpg"
+                "overview": "While this movie isn't primarily a comedy, it does include elements of humor in the plot.",
+                "why_it_matches": [
+                    "Includes humor",
+                    "Not strictly comedic"
+                ],
+                "match_score": 0.6234587199951273,
+                "rating": 6.1,
+                "duration": 98,
+                "backdrop_url": "https://image.tmdb.org/t/p/original/vkniCN8rQjpItnP6Pq7K4aAUxok.jpg"
+            },
+            {
+                "title": "Super",
+                "year": 2010,
+                "genres": [
+                    "Comedy",
+                    "Action",
+                    "Drama"
+                ],
+                "overview": "This film is known for its humorous approach to superhero narratives and might fit your criteria well.",
+                "why_it_matches": [
+                    "Humorous superhero narrative",
+                    "Comedic tone"
+                ],
+                "match_score": 0.8567342199951272,
+                "rating": 6.9,
+                "duration": 101,
+                "backdrop_url": "https://image.tmdb.org/t/p/original/5OGrBmi0fWAE6b1R6uv5EnuWOaL.jpg"
             },
             {
                 "title": "Iron Man 2",
                 "year": 2010,
-                "genres": [],
+                "genres": ['Action', 'Comedy', 'Drama'],
                 "overview": "Tony Stark builds an even more advanced suit of armor and faces new threats.",
                 "why_it_matches": [
                     "Starring Tony Stark",
                     "Advanced technology themes"
                 ],
-                "match_score": 9.37846512245098,
+                "match_score": 0.937846512245098,
                 "rating": 7.7,
                 "duration": 121,
                 "backdrop_url": "https://image.tmdb.org/t/p/original/7lmBufEG7P7Y1HClYK3gCxYrkgS.jpg"
@@ -38,13 +59,13 @@ const MOCK_RECOMMENDATION =
             {
                 "title": "Iron Man 3",
                 "year": 2013,
-                "genres": [],
+                "genres": ['Action', 'Comedy'],
                 "overview": "Tony Stark tries to keep his superhero identity a secret while facing a new enemy.",
                 "why_it_matches": [
                     "Starring Tony Stark",
                     "Advanced technology themes"
                 ],
-                "match_score": 9.165207434798884,
+                "match_score": 0.9165207434798884,
                 "rating": 7.7,
                 "duration": 132,
                 "backdrop_url": "https://image.tmdb.org/t/p/original/iVped1djsF0tvGkvnHbzsE3ZPTF.jpg"
