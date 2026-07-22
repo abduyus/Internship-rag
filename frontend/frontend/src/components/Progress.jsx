@@ -56,7 +56,7 @@ function Progress({score}) {
     return (
         <StyledContainer>
 
-            <StyledLabel>{score * 100}% • {label}</StyledLabel>
+            <StyledLabel>{Math.round(score * 100)}% • {label}</StyledLabel>
             <StyledProgress>
                 <Fill score={score} gradient={gradient} />
             </StyledProgress>
