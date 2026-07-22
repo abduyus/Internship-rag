@@ -13,6 +13,7 @@ const StyledHeader = styled.header`
     background-color: var(--color-grey-100);
     border-radius: 0.9rem;
     margin: 1.6rem;
+    font-weight: 700;
     `
 // const StyledSubheader = styled.span`
 //     font-size: 1.6rem;
