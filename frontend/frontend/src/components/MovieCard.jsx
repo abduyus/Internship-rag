@@ -231,6 +231,36 @@ const StyledMovieCard = styled.div`
     .movie-info span {
         padding-right: 0.8rem;
     }
+
+    .image-container {
+        position: relative;
+    }
+
+    .movie_image {
+        display: block;
+        width: 100%;
+        border-top-left-radius: var(--border-radius-lg);
+        border-top-right-radius: var(--border-radius-lg);
+    }
+
+    .image-container::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        height: 120px;
+
+        background: linear-gradient(
+                to bottom,
+                transparent,
+                var(--color-grey-100)
+        );
+
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
     
     
 
@@ -279,8 +309,10 @@ function MovieCard({movie, index}) {
             <RibbonBanner>
                 {index === 0 && <span>Best Match</span>}
             </RibbonBanner>
+            <div className={'image-container'}>
 
             <img src={backdrop_url} alt="Movie Image" className={'movie_image'} />
+            </div>
             <div className="card__genres">
                 {genres.map((genre) => {
                     return (
