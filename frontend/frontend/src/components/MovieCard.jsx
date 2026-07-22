@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import Progress from "./Progress.jsx";
-import {useEffect} from "react";
 
 
 const StyledMovieCard = styled.div`
+    .highest_rated {
+        border: 1px solid green
+    }
     background-color: var(--color-grey-100);
     //margin: 1.6rem 0.8rem;
     //padding: 1.8rem;
@@ -18,6 +20,8 @@ const StyledMovieCard = styled.div`
     height: 100%;
     padding-bottom: 1.8rem;
 
+    position: relative;
+    overflow: hidden;
 
     &:hover {
         box-shadow: var(--shadow-lg);
@@ -40,7 +44,7 @@ const StyledMovieCard = styled.div`
         margin: 0 1.8rem 1.8rem;
 
         display: -webkit-box;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
 
@@ -53,11 +57,21 @@ const StyledMovieCard = styled.div`
         border-top-right-radius: var(--border-radius-lg);
     
     }
+    
+    &.hover .movie_image {
+        transform: scale(1.03);
+    }
 
 
     .matches_reason {
         //padding-left: 1.8rem;
         margin: auto 1.8rem 0;
+        padding-bottom: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .matches_reason span {
+        padding-right: 0.8rem;
     }
 
     .card__genres {
@@ -200,17 +214,72 @@ const StyledMovieCard = styled.div`
         background-color: #f0abfc;
         color: #701a75;
     }
+    
+    .movie-info-container {
+        display: flex;
+        gap: 3.6rem;
+        justify-content: center;
+        margin-bottom: 1.2rem;
+        font-weight: 700;
+        font-size: 1.8rem;
+        background-color: var(--color-grey-200);
+        padding: 0.8rem;
+        border-radius: var(--border-radius-sm);
+        margin-left: 1.8rem;
+        margin-right: 1.8rem;
+    }
+    .movie-info span {
+        padding-right: 0.8rem;
+    }
+    
+    
 
 `
-function MovieCard({movie}) {
-    const {title, genres, overview, why_it_matches, year, match_score, backdrop_url} = movie;
+const RibbonBanner = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+    z-index: 2;
+    pointer-events: none;
+
+    span {
+        position: absolute;
+        display: block;
+        width: 220px;
+        padding: 8px 0;
+        background: #fbbf24;
+        color: #0f172a;
+        font-size: 1.2rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-align: center;
+        text-transform: uppercase;
+        top: 28px;
+        right: -55px;
+        transform: rotate(45deg);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+`;
+function MovieCard({movie, index}) {
+    const {title, genres, overview, why_it_matches, year, match_score, backdrop_url, rating, duration} = movie;
     console.log(movie)
-    console.log(title, genres, overview, why_it_matches, year, match_score, backdrop_url);
+    // console.log(title, genres, overview, why_it_matches, year, match_score, backdrop_url, rating, duration);
+    console.log(index)
+    let movie_score;
+    if (match_score > 1) movie_score = match_score / 100;
+    if (match_score < 1) movie_score = match_score;
 
 
 
     return (
-        <StyledMovieCard>
+        <StyledMovieCard className={index === 0 ? 'highest_rated' : ''}>
+            <RibbonBanner>
+                {index === 0 && <span>Best Match</span>}
+            </RibbonBanner>
+
             <img src={backdrop_url} alt="Movie Image" className={'movie_image'} />
             <div className="card__genres">
                 {genres.map((genre) => {
@@ -220,9 +289,16 @@ function MovieCard({movie}) {
                 })}
             </div>
             <h1 className={'movie_title'}>{title} ({year})</h1>
-            <Progress score={match_score} />
+            <Progress score={movie_score} />
+            <div className={'movie-info-container'}>
+                <p className={'movie-info'}><span>⭐</span>️{rating}</p>
+                <p className={'movie-info'}><span>⏳</span>{duration} mins</p>
+            </div>
+
             <p className={'overview'}>{overview}</p>
-            <p className={'matches_reason'}>{why_it_matches}</p>
+            <div>
+                {why_it_matches.map(reason => <p className={'matches_reason'}><span>✅</span>{reason}</p>)}
+            </div>
 
 
 
