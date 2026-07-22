@@ -32,10 +32,11 @@ const StyledHeading = styled.div`
 function RecommendationPanel({ recommendation, isLoading }) {
     const heading = recommendation.summary;
     const items = recommendation.movies;
-
+    console.log(items);
+    const sorted = [...items].sort((a, b) => b.match_score - a.match_score);
     return (
         <StyledRecommendationPanel
-            columns={Math.max(1, Math.min(items?.length, 4))}
+            columns={Math.max(1, Math.min(sorted?.length, 4))}
         >
             {isLoading && <Spinner />}
 
@@ -43,10 +44,11 @@ function RecommendationPanel({ recommendation, isLoading }) {
                 <MovieText>{heading}</MovieText>
             </StyledHeading>
 
-            {items?.map(movie => (
+            {sorted?.map((movie, index) => (
                 <MovieCard
                     key={movie.title}
                     movie={movie}
+                    index={index}
                 />
             ))}
         </StyledRecommendationPanel>
