@@ -43,7 +43,17 @@ services:
         limits:
           memory: 16G
 
-  
+  react:
+    build: ./frontend/frontend
+    container_name: react
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/frontend:/app
+      - /app/node_modules
+    depends_on:
+      - app
+
 
 volumes:
   qdrant_storage:
