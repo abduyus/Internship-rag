@@ -1,100 +1,282 @@
-# Internship RAG
+# 🎬 Internship RAG – AI Movie Recommendation System
 
-A small Retrieval-Augmented Generation (RAG) project for movie discovery and recommendation. The project uses semantic
-search over a Qdrant vector database, reranks results for better relevance, and exposes both a simple RAG flow and an
-agent-based workflow.
+An AI-powered movie recommendation system built using Retrieval-Augmented Generation (RAG), semantic search, local LLMs, and a modern React interface.
+
+The application retrieves semantically relevant movies from a Qdrant vector database, reranks the results for accuracy, enriches them with TMDB metadata, and generates personalised recommendations using a local Ollama model.
+
+---
 
 ## Features
 
-- Semantic movie search using sentence embeddings
-- Duplicate removal before returning results
-- Reranking with a cross-encoder model
-- A simple LLM-based movie recommendation flow via Ollama
-- An agent workflow with movie search and booking tools
+### 🤖 AI Recommendation Engine
 
-## Project Structure
+- Semantic movie search using sentence-transformer embeddings
+- Cross-encoder reranking for improved relevance
+- Duplicate removal
+- Local LLM recommendations via Ollama
+- LangChain agent with tool calling
+- Structured JSON responses for the frontend
 
-- `search.py` – semantic search, deduplication, and reranking
-- `rag.py` – simple RAG pipeline that retrieves movies and builds a prompt for Ollama
-- `agent.py` – agent-based version using LangChain tools
-- `tools.py` – tool wrappers for search and booking
-- `data/ingest.py` – script to load movie data into Qdrant
-- `tests/` – unit and integration tests
+### 🎥 Modern Movie UI
 
-## Prerequisites
+- React + Vite frontend
+- Responsive movie cards
+- Movie backdrops from TMDB
+- Match score progress bars
+- Genre badges
+- Runtime and rating display
+- "Best Match" highlighting
+- Clean dark-themed interface
 
-- Docker Desktop
+### ⚙ Backend
+
+- FastAPI REST API
+- LangChain Agent
+- Qdrant Vector Database
+- Ollama integration
+- TMDB API integration
+- Dockerised services
+
+### 📊 Evaluation
+
+- LangSmith tracing
+- Automated evaluation
+- LLM scoring
+- Feedback collection for future improvements
+
+---
+
+# Tech Stack
+
+## Frontend
+
+- React
+- Vite
+- Styled Components
+
+## Backend
+
+- Python
+- FastAPI
+- LangChain
+
+## AI / ML
+
+- Ollama
+- Sentence Transformers
+- Cross Encoder Reranker
+- Qdrant
+
+## Infrastructure
+
+- Docker
 - Docker Compose
-- A `.env` file with the required environment variables
 
-## Docker Setup
+---
 
-1. Build and start the services:
+# Architecture
 
-   ```bash
-   docker compose up --build
-   ```
-
-2. Create the movies collection in Qdrant:
-
-   ```bash
-   docker compose run --rm app python data/create_collection.py
-   ```
-
-3. Ingest the movie dataset into Qdrant:
-
-   ```bash
-   docker compose run --rm app python data/ingest.py
-   ```
-
-
-3. Send a message to the app:
-
-   ```bash
-   docker compose run --rm app python agent.py --message "Find a funny superhero movie and book it for 7pm"
-   ```
-
-## Local Development (optional)
-
-If you want to run the project outside Docker:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+```
+                User
+                  │
+                  ▼
+        React + Vite Frontend
+                  │
+                  ▼
+            FastAPI Backend
+                  │
+        ┌─────────┴──────────┐
+        ▼                    ▼
+   LangChain Agent       TMDB API
+        │
+        ▼
+ Semantic Search
+        │
+        ▼
+ Qdrant Vector Database
+        │
+        ▼
+ Cross Encoder Reranker
+        │
+        ▼
+    Ollama LLM
+        │
+        ▼
+ Structured JSON Response
 ```
 
-Then set the required environment variables and run:
+---
 
-```bash
-python data/ingest.py
-python agent.py
+# Project Structure
+
+```
+backend/
+│
+├── agent.py          # LangChain agent
+├── api.py            # FastAPI API
+├── search.py         # Semantic search & reranking
+├── rag.py            # RAG pipeline
+├── tmdb.py           # TMDB integration
+├── tools.py          # LangChain tools
+├── evaluator.py      # LangSmith evaluation
+└── requirements.txt
+
+frontend/
+└── frontend/
+    ├── src/
+    ├── public/
+    └── package.json
+
+data/
+tests/
+
+docker-compose.yml
+Dockerfile.ollama
 ```
 
-## Environment Variables
+---
 
-The project expects the following values in `.env`:
+# Running with Docker
+
+Build every service
+
+```bash
+docker compose up --build
+```
+
+This starts:
+
+- FastAPI
+- React
+- Ollama
+- Qdrant
+
+---
+
+## Create the Vector Collection
+
+```bash
+docker compose run --rm app python data/create_collection.py
+```
+
+---
+
+## Ingest Movie Dataset
+
+```bash
+docker compose run --rm app python data/ingest.py
+```
+
+---
+
+## Application URLs
+
+| Service | URL |
+|----------|-----|
+| React | http://localhost:5173 |
+| FastAPI | http://localhost:8000 |
+| Swagger Docs | http://localhost:8000/docs |
+| Qdrant | http://localhost:6333 |
+| Ollama | http://localhost:11434 |
+
+---
+
+# Environment Variables
+
+Create a `.env` file.
 
 ```env
 QDRANT_URL=http://qdrant:6333
-QDRANT_API_KEY=your-qdrant-api-key
+QDRANT_API_KEY=
+
 EMBEDDING_MODEL=all-MiniLM-L6-v2
 RERANK_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
-OLLAMA_MODEL=mistral:7b
+
+OLLAMA_MODEL=qwen2.5:7b
 OLLAMA_BASE_URL=http://ollama:11434
-MESSAGE=tony stark
+
+TMDB_API_KEY=YOUR_API_KEY
+
+LANGCHAIN_API_KEY=
+LANGCHAIN_ENDPOINT=
+LANGCHAIN_PROJECT=
+LANGCHAIN_TRACING_V2=true
 ```
 
-## Testing
+---
 
-Run the test suite locally with:
+# Local Development
+
+Backend
 
 ```bash
-./.venv/bin/python -m pytest -q
+python -m venv .venv
+
+source .venv/bin/activate
+
+pip install -r backend/requirements.txt
+
+uvicorn backend.api:app --reload
 ```
 
-## Notes
+Frontend
 
-- The project expects a Qdrant collection named `movies`.
-- The Ollama model name can be changed through the `OLLAMA_MODEL` environment variable.
-- If you want to use a different embedding or reranker model, update the corresponding environment variables.
+```bash
+cd frontend/frontend
+
+npm install
+
+npm run dev
+```
+
+---
+
+# Testing
+
+```bash
+pytest
+```
+
+---
+
+# Example Query
+
+```
+Find a funny superhero movie released after 2005.
+```
+
+Example response:
+
+- Superhero Movie (2008)
+- Super (2010)
+- Mystery Men (1999)
+
+Each recommendation includes:
+
+- Match score
+- Genres
+- Runtime
+- Rating
+- Overview
+- Why it matches
+- Movie backdrop
+
+---
+
+# Future Improvements
+
+- User feedback collection
+- Personal recommendation history
+- Hybrid keyword + semantic search
+- Authentication
+- Movie trailers
+- Streaming platform availability
+- Watchlists
+- Favourite movies
+- Continuous LangSmith evaluation
+
+---
+
+# License
+
+This project was developed as part of an AI Engineering internship to explore Retrieval-Augmented Generation (RAG), semantic search, local LLMs, and modern frontend development.
