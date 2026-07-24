@@ -43,6 +43,8 @@ services:
         limits:
           memory: 16G
 
+  
+
 volumes:
   qdrant_storage:
   ollama_data:
