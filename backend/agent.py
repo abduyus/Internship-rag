@@ -54,6 +54,7 @@ When recommending movies:
 - If only a few movies satisfy all requirements, return only those movies rather than weaker matches.
 - Briefly explain why each recommended movie matches the user's request.
 - Ensure you return the genres, release data, runtime exactly as they are from the database 
+- The title and the year must be separate, keep the title exactly as you receive it fron the database
 
 Examples of requirements include:
 - genre (crime, comedy, sci-fi, etc.)
@@ -87,6 +88,7 @@ Rules:
 - Do not modify or estimate match scores.
 - Do not modify ratings and durations
 
+
 For each movie's why_it_matches:
 - Return 2-4 SEPARATE bullet points, one reason per list item.
 - Each bullet must be under 8 words.
@@ -99,6 +101,7 @@ For each movie:
 
 - Do not copy the genres into why_it_matches.
 - Base the reasons on the user's query and the movie description.
+- Do not add the year to the title, keep them separate
 
 Answer to convert:
 {answer}
@@ -186,13 +189,17 @@ def ask_movie_agent(message):
 
         # --- pull real values from the tool output, never trust the LLM's copy ---
         tool_results = _get_tool_results(response["messages"])
+        print(tool_results)
         data_by_title = {r["title"]: r for r in tool_results}
 
         for movie in result["movies"]:
             source = data_by_title.get(movie["title"])
+            print(source)
+
             if source:
                 movie["match_score"] = source["match_score"]  # real int, 0–100, from search.py
-                movie["genres"] = source["genres"]
+                movie["genres"] = source["genres"].split(' ')
+                print(movie['genres'])
                 movie["overview"] = source["overview"]
                 movie["rating"] = source.get("rating")
                 movie["duration"] = source.get("duration")
