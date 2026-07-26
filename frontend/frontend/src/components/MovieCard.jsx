@@ -3,9 +3,19 @@ import Progress from "./Progress.jsx";
 
 
 const StyledMovieCard = styled.div`
-    .highest_rated {
-        border: 1px solid green
+    &.highest_rated {
+
+        box-shadow: 0 8px 24px rgba(182, 182, 182, 0.35),
+        0 0 24px rgba(250, 179, 0, 0.45);
+        transform: translateY(-4px);
+
     }
+
+    &.highest_rated:hover {
+        box-shadow: 0 8px 24px rgba(255, 254, 254, 0.35),
+        0 0 24px rgba(250, 179, 0, 0.79);
+    }
+
     background-color: var(--color-grey-100);
     //margin: 1.6rem 0.8rem;
     //padding: 1.8rem;
@@ -29,9 +39,9 @@ const StyledMovieCard = styled.div`
 
         transform: translateY(-6px);
     }
-    
+
     .top_movie {
-        box-shadow: 0 12px 30px rgba(0,0,0,0.65), 0 0 24px rgba(34,197,94,0.48);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65), 0 0 24px rgba(34, 197, 94, 0.48);
     }
 
     .movie_title {
@@ -55,9 +65,9 @@ const StyledMovieCard = styled.div`
         width: 100%;
         border-top-left-radius: var(--border-radius-lg);
         border-top-right-radius: var(--border-radius-lg);
-    
+
     }
-    
+
     &.hover .movie_image {
         transform: scale(1.03);
     }
@@ -69,7 +79,7 @@ const StyledMovieCard = styled.div`
         padding-bottom: 0.8rem;
         font-weight: 600;
     }
-    
+
     .matches_reason span {
         padding-right: 0.8rem;
     }
@@ -214,7 +224,7 @@ const StyledMovieCard = styled.div`
         background-color: #f0abfc;
         color: #701a75;
     }
-    
+
     .movie-info-container {
         display: flex;
         gap: 3.6rem;
@@ -228,6 +238,7 @@ const StyledMovieCard = styled.div`
         margin-left: 1.8rem;
         margin-right: 1.8rem;
     }
+
     .movie-info span {
         padding-right: 0.8rem;
     }
@@ -261,8 +272,8 @@ const StyledMovieCard = styled.div`
         border-bottom-left-radius: inherit;
         border-bottom-right-radius: inherit;
     }
-    
-    
+
+
 
 `
 const RibbonBanner = styled.div`
