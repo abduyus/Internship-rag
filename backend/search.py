@@ -101,8 +101,8 @@ def rerank_results(question, points, limit=5, max_gap=3.0):
             "director": point.payload["director"],
             "cast": point.payload["cast"],
             "overview": point.payload["overview"],
-            "rating": point.payload.get("vote_average"),
-            "duration": point.payload.get("runtime"),
+            "rating": point.payload.get("rating"),
+            "duration": point.payload.get("duration"),
             "match_score": match_score,
         })
 
