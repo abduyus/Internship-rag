@@ -46,7 +46,7 @@ function RecommendationPanel({ recommendation, isLoading }) {
 
             {sorted?.map((movie, index) => (
                 <MovieCard
-                    key={movie.title}
+                    key={index}
                     movie={movie}
                     index={index}
                 />
